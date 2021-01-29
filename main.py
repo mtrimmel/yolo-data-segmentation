@@ -3,6 +3,8 @@
 Created on Thu Jan 21 14:46:15 2021
 
 @author: Hansi
+
+loading of dirs and applying trafo and alpha to background and foreground img.
 """
 import cv2
 import random

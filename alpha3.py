@@ -11,6 +11,15 @@ import numpy as np
 
 
 def alpha(foreground, background, x_offset, y_offset):
+    """
+    Creates overlay
+
+    :param foreground:
+    :param background:
+    :param x_offset:
+    :param y_offset:
+    :return:
+    """
     #foreground = cv2.imread('foreground', -1)
     #background = cv2.imread('beach.jpg')
     #foreground = cv2.resize(foreground, None, fx= 0.5, fy= 0.5, interpolation=cv2.INTER_AREA)
