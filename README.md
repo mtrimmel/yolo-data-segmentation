@@ -6,7 +6,7 @@ For a detailed description of the ideas underlying the code cf. [here](https://g
 
 
 Authors: 
-Majesa Trimmel 
-Hans Küffner-McCauley
+Majesa Trimmel /n
+Hans Küffner-McCauley /n
 
 Questions? Please contact sebastian.schlund@tuwien.ac.at, patrick.rupprecht@tuwien.ac.at
