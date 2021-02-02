@@ -21,7 +21,7 @@ count = 10 # determines the number of generate images from each template and cor
 
 # Paths for pictures and .txt-files
 dir_path = os.path.dirname(os.path.realpath(__file__))  # path to current directory
-path = os.path.join(dir_path, 'generated_images')  # path to directory where images that are generate from this script are stored
+path = os.path.join(dir_path, 'generated_images')  # dir path for generated images
 img_dir = os.path.join(dir_path, 'templates')   # path for template images
 background_dir = os.path.join(dir_path, 'backgrounds') # seperate folder for background images
 
