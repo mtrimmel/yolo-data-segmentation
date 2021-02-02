@@ -17,13 +17,13 @@ from bounding import find_bounding
 from write import write_obj
 
 # Amount of files
-count = 10 # determines the number of generate images from each template and corresponding background
+count = 10  # determines the number of generate images from each template and corresponding background
 
 # Paths for pictures and .txt-files
 dir_path = os.path.dirname(os.path.realpath(__file__))  # path to current directory
 path = os.path.join(dir_path, 'generated_images')  # dir path for generated images
-img_dir = os.path.join(dir_path, 'templates')   # path for template images
-background_dir = os.path.join(dir_path, 'backgrounds') # seperate folder for background images
+img_dir = os.path.join(dir_path, 'templates')  # path for template images
+background_dir = os.path.join(dir_path, 'backgrounds')  # separate folder for background images
 
 # Classes from the obj.txt file
 classes = classes.read_classes()
@@ -42,12 +42,12 @@ for background in os.listdir(background_dir):
         # 4: y coordinate
         # 5: image index number
         variables = name.split('_')
-        MOD = float(variables[1]) # minimum object distance
+        MOD = float(variables[1])  # minimum object distance
         print(variables)
         image_path = os.path.join(img_dir, '{}'.format(name))
         for i in range(count):
             # Get foreground and background
-            img1 = cv2.imread(image_path, -1) # template image
+            img1 = cv2.imread(image_path, -1)  # template image
             img2 = cv2.imread(background_path)  # background image
 
             # Rotation angle for geometric transformation
