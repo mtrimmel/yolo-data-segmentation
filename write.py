@@ -56,3 +56,5 @@ def write_obj(path, label_path, variables, xC, yC, img, i):
     cv2.imwrite(pic_path, img)
     with open(label, 'w') as file:
         file.write(text)
+
+
