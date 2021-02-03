@@ -89,6 +89,6 @@ for background in os.listdir(background_dir):
             #cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
 
             # Saving the picture and writing the corresponding .txt-file
-            write_obj(path, path, variables, xC, yC, overlay, i)
+            write_obj(path, variables, xC, yC, overlay, i)
 
 process_images(80, dir_path)
