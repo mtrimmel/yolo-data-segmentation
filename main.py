@@ -55,7 +55,7 @@ for background in os.listdir(background_dir):
 
             # Scaling of img1 using similar triangles
             z_in = MOD
-            z_out = 3
+            z_out = random.uniform(3.0,4.0)
             scale = z_in / z_out
             # print(x_in, 1/x_out)
 

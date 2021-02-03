@@ -32,7 +32,10 @@ def write_obj(path, label_path, variables, xC, yC, img, i):
     :param i: counter
     :return:
     """
-    name = int(variables[0])
+    if variables[0] == 'five':
+        name = 0
+    elif variables[0] == 'fist':
+        name = 1 
     radius = float(variables[2])
     
     width = height = 2 * radius / math.sqrt(2)
