@@ -15,9 +15,10 @@ from trafo import geometric_transformation
 import read_names as classes
 from bounding import find_bounding
 from write import write_obj
+from process import process_images
 
 # Amount of files
-count = 10  # determines the number of generate images from each template and corresponding background
+count = 100  # determines the number of generate images from each template and corresponding background
 
 # Paths for pictures and .txt-files
 dir_path = os.path.dirname(os.path.realpath(__file__))  # path to current directory
@@ -84,9 +85,10 @@ for background in os.listdir(background_dir):
             xC = x_offset + x_center
             yC = y_offset + y_center
             # print(radius, x_center, y_center, x_rect1, y_rect1)
-            # cv2.circle(overlay,(x_offset+x_center,y_offset+y_center),3,(0,255,0),3)
-            cv2.rectangle(overlay, (x_rect1, y_rect1),
-                          (x_rect2, y_rect2), (255, 0, 0), 1)
+            # cv2.circle(overlay,(x_offset+x_center,y_offset+y_center),3,(0,255,0),3) ONLY FOR VISUALISATION
+            #cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
 
             # Saving the picture and writing the corresponding .txt-file
             write_obj(path, path, variables, xC, yC, overlay, i)
+
+process_images(80, dir_path)
