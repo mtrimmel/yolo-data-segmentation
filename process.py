@@ -1,25 +1,34 @@
 import glob
 import os
+import pathlib
 
 
 def process_images(percentage_test, path):
+    current_dir_file = os.path.dirname(os.path.abspath(__file__))
 
-    # directory where the data will reside, relative to 'darknet.exe'
-    path_data = os.path.join(path, 'generated_images')
+    # Create and/or truncate train.txt and test.txt
+    file_train = open('train.txt', 'w')
+    file_test = open('test.txt', 'w')
 
-
-    # create and/or truncate train.txt and test.txt
-    file_train = open('train_1.txt', 'w')
-    file_test = open('test_1.txt', 'w')
-
-    # fill the files train.txt and test.txt
+    # Fill the files train.txt and test.txt
     counter = 1
     index_test = round(100 / percentage_test)
-    for pathAndFilename in glob.iglob(os.path.join(path_data, "*.jpg")):
-        title, ext = os.path.splitext(os.path.basename(pathAndFilename))
+
+    # Load images
+    types = ('*.png', '*.jpg', '*.jpeg')
+    images = []
+    for type in types:
+        images_search_path = os.path.join(current_dir_file,
+                                             'output', 'data', type)
+        images.extend(glob.glob(images_search_path))
+    images.sort()
+
+    for img in images:
+        filename = pathlib.Path(img).name
+
         if counter == index_test:
             counter = 1
-            file_test.write(path_data + title + '.jpg' + '\n')
+            file_test.write(path + filename + '\n')
         else:
-            file_train.write(path_data + title + '.jpg' + '\n')
+            file_train.write(path + filename + '\n')
             counter = counter + 1

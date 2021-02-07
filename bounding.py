@@ -26,30 +26,33 @@ def find_bounding(img):
                                            cv2.CHAIN_APPROX_SIMPLE)
     cnt = contours[0]
 
-    # Finding the bounding circle
-    ((x, y), radius) = cv2.minEnclosingCircle(cnt)
-
-    return x, y, radius
-
-
-    """
-    #find contours of rotated image
-    copy = cv2.cvtColor(rotated_img, cv2.COLOR_BGRA2GRAY)
-    thresh = cv2.adaptiveThreshold(copy,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                   cv2.THRESH_BINARY,11,2)
-    contours,hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, 
-                                          cv2.CHAIN_APPROX_SIMPLE)
-    cnt = contours[0] 
-
-    #Bounding rectangle
-    x,y,w,h = cv2.boundingRect(cnt)
+    # Finding bounding rectangle
+    rect_x, rect_y, rect_w, rect_h = cv2.boundingRect(cnt)
+    cv2.rectangle(img, (rect_x, rect_y), (rect_x + rect_w, rect_y + rect_h),
+                  (0, 255, 0), 2)
     rect = cv2.minAreaRect(cnt)
     box = cv2.boxPoints(rect)
-    box = np.int0(box)
-    cv2.drawContours(rotated_img,[box],0,(0,0,255),2)
-    cv2.rectangle(rotated_img,(x,y),(x+w,y+h),(0,255,0),2)
+    cv2.drawContours(img, [box], 0, (0, 0, 255), 2)
 
-    #Bounding circle
-    ((a, b), radius) = cv2.minEnclosingCircle(cnt)
-    cv2.circle(rotated_img, (int(a), int(b)), int(radius),(0, 255, 255), 2)  
-    """
+    # Finding bounding circle
+    ((circle_x, circle_y), radius) = cv2.minEnclosingCircle(cnt)
+    cv2.circle(img, (int(circle_x), int(circle_y)), int(radius),
+               (0, 255, 255), 2)
+
+
+def draw_bounding(img, r, x, y, scale, x_offset, y_offset):
+    radius = int(scale * r)
+    x_center = int(x)
+    y_center = int(y)
+
+    x_rect1 = x_offset + x_center - radius
+    y_rect1 = y_offset + y_center - radius
+    x_rect2 = x_offset + x_center + radius
+    y_rect2 = y_offset + y_center + radius
+
+    x_img = x_offset + x_center
+    y_img = y_offset + y_center
+
+    print(radius, x_center, y_center, x_rect1, y_rect1)
+    cv2.circle(img, (x_img, y_img), 3, (0, 255, 0), 3)
+    cv2.rectangle(img, (x_rect1, y_rect1), (x_rect2, y_rect2), (255, 0, 0), 1)

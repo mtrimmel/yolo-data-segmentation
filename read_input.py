@@ -29,10 +29,49 @@ function:
                         associated class-name
 """
 
+import sys
 import os
 import glob
 import re
 import pathlib
+
+
+def read_mode():
+    # Determines the number of generated images from each template and
+    # corresponding background and the mode of the output
+    # Default mode
+    if len(sys.argv) == 1:
+        n_img = 100
+        mode = 1
+
+    # Image number specification mode
+    elif len(sys.argv) == 2:
+        n_img = int(sys.argv[1])
+        mode = 1
+
+        if isinstance(n_img, int) is False:
+            exit('ERROR: False argument!\n')
+
+    # Detailed specification mode
+    elif len(sys.argv) == 3:
+        n_img = int(sys.argv[1])
+
+        if sys.argv[2] == 'mode_1':
+            mode = 1
+        elif sys.argv[2] == 'mode_2':
+            mode = 2
+        elif sys.argv[2] == 'mode_3':
+            mode = 3
+        else:
+            mode = 0
+
+        if isinstance(n_img, int) is False or mode == 0:
+            exit('ERROR: False argument!\n')
+
+    else:
+        exit('ERROR: Too many command line arguments!\n')
+
+    return n_img, mode
 
 
 def get_img():
@@ -143,6 +182,25 @@ def read_yolo_classes(obj_file):
     obj_class_dict = dict(zip(class_id, class_names))
 
     return obj_class_dict
+
+def read_img(img):
+    # call name of the image
+    name = pathlib.Path(img).name
+
+    # split name
+    # 0: class
+    # 1: mod ????
+    # 2: Radius
+    # 3: x coordinate
+    # 4: y coordinate
+    # 5: image index number
+    variables = name.split('_')
+
+    # Minimum object distance
+    class_id, mod, radius, y, x, index = float(*variables)
+    print(variables)
+
+    return class_id, mod, radius, x, y, index
 
 
 if __name__ == "__main__":
