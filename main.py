@@ -10,16 +10,15 @@ import cv2
 import random
 import os
 import math
-from alpha3 import alpha
+from alpha import alpha_channel
 from trafo import geometric_transformation
 import read_names as classes
-from bounding import find_bounding
 from write import write_obj
 from process import process_images
 
 # Amount of files
-count = 100  # determines the number of generate images from each template and corresponding background
-
+count = 10  # determines the number of generate images from each template and corresponding background
+image_counter = 0
 # Paths for pictures and .txt-files
 dir_path = os.path.dirname(os.path.realpath(__file__))  # path to current directory
 path = os.path.join(dir_path, 'generated_images')  # dir path for generated images
@@ -47,6 +46,8 @@ for background in os.listdir(background_dir):
         print(variables)
         image_path = os.path.join(img_dir, '{}'.format(name))
         for i in range(count):
+            image_counter += 1
+            print(image_counter)
             # Get foreground and background
             img1 = cv2.imread(image_path, -1)  # template image
             img2 = cv2.imread(background_path)  # background image
@@ -62,14 +63,14 @@ for background in os.listdir(background_dir):
 
             rotated_img = geometric_transformation(img1, rotation_angle, scale, float(variables[3]),
                                                    float(variables[4]))
-
-            x_offset = random.randrange(1, img2.shape[1] - rotated_img.shape[1],
+            # print(rotated_img.shape[0], rotated_img.shape[1])
+            x_offset = random.randrange(1, 640 - rotated_img.shape[1],
                                         1)
-            y_offset = random.randrange(1, img2.shape[0] - rotated_img.shape[0],
+            y_offset = random.randrange(1, 480 - rotated_img.shape[0],
                                         1)
-
+            # print(x_offset, y_offset)
             # Overlaying the object to the background and transparent image
-            contour_img, overlay = alpha(rotated_img, img2, x_offset, y_offset)
+            contour_img, overlay = alpha_channel(rotated_img, img2, x_offset, y_offset)
 
             # Optional - draw bounding rectangle and circle
             radius = scale * float(variables[2])
@@ -86,9 +87,9 @@ for background in os.listdir(background_dir):
             yC = y_offset + y_center
             # print(radius, x_center, y_center, x_rect1, y_rect1)
             # cv2.circle(overlay,(x_offset+x_center,y_offset+y_center),3,(0,255,0),3) ONLY FOR VISUALISATION
-            #cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
+            # cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
 
             # Saving the picture and writing the corresponding .txt-file
-            write_obj(path, variables, xC, yC, overlay, i)
+            write_obj(path, scale, variables, xC, yC, overlay, i)
 
 process_images(80, dir_path)
