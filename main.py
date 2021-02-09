@@ -19,6 +19,7 @@ from process import process_images
 # Amount of files
 count = 10  # determines the number of generate images from each template and corresponding background
 image_counter = 0
+
 # Paths for pictures and .txt-files
 dir_path = os.path.dirname(os.path.realpath(__file__))  # path to current directory
 path = os.path.join(dir_path, 'generated_images')  # dir path for generated images
@@ -75,9 +76,9 @@ for background in os.listdir(background_dir):
             # Optional - draw bounding rectangle and circle
             radius = scale * float(variables[2])
             radius = int(radius)
-            x_center = float(variables[3])
+            x_center = scale*float(variables[3])
             x_center = int(x_center)
-            y_center = float(variables[4])
+            y_center = scale*float(variables[4])
             y_center = int(y_center)
             x_rect1 = x_offset + x_center - radius
             y_rect1 = y_offset + y_center - radius
@@ -87,7 +88,7 @@ for background in os.listdir(background_dir):
             yC = y_offset + y_center
             # print(radius, x_center, y_center, x_rect1, y_rect1)
             # cv2.circle(overlay,(x_offset+x_center,y_offset+y_center),3,(0,255,0),3) ONLY FOR VISUALISATION
-            # cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
+            cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
 
             # Saving the picture and writing the corresponding .txt-file
             write_obj(path, scale, variables, xC, yC, overlay, i)
