@@ -6,6 +6,7 @@ def process_images(percentage_test, path):
 
     # directory where the data will reside, relative to 'darknet.exe'
     path_data = os.path.join(path, 'generated_images')
+    dir_path = '/home/lv71515/MTrimmel/darknet/build/darknet/x64/data/obj/'
 
 
     # create and/or truncate train.txt and test.txt
@@ -19,7 +20,7 @@ def process_images(percentage_test, path):
         title, ext = os.path.splitext(os.path.basename(pathAndFilename))
         if counter == index_test:
             counter = 1
-            file_test.write(path_data + title + '.jpg' + '\n')
+            file_test.write(dir_path + title + '.jpg' + '\n')
         else:
-            file_train.write(path_data + title + '.jpg' + '\n')
+            file_train.write(dir_path + title + '.jpg' + '\n')
             counter = counter + 1
