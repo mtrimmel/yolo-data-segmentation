@@ -17,7 +17,7 @@ import cv2
 import math
 
 
-def write_obj(path, scale, variables, xC, yC, img, i):
+def write_obj(path, scale, variables, xC, yC, img, index):
     """
     Saves the overlay image and the associated object label
 
@@ -33,13 +33,14 @@ def write_obj(path, scale, variables, xC, yC, img, i):
     :return:
     """
     if variables[0] == 'five':
-        name = 0
+        classname = 0
     elif variables[0] == 'fist':
-        name = 1 
+        classname = 1
+
     radius = float(variables[2])
     
     width = height = 2 * radius / math.sqrt(2)
-    img_width, img_height, img_ch = img.shape
+    img_height, img_width, img_ch = img.shape #rows, cols, ch
 
     xC1 = xC / img_width
     yC1 = yC / img_height
@@ -47,11 +48,11 @@ def write_obj(path, scale, variables, xC, yC, img, i):
     rel_width = width / img_width
     rel_height = height / img_height
     
-    text = '%d %f %f %f %f\n' % (name, xC1, yC1, rel_width, rel_height)
+    text = '%d %f %f %f %f\n' % (classname, xC1, yC1, rel_width, rel_height)
 
-    label = os.path.join(path, '%d_%.2f_%.2f_%d.txt' % (name,radius, scale, i))
+    label = os.path.join(path, '%d_%d_%d_%d.txt' % (index, classname, radius, scale*100))
 
-    pic_path = os.path.join(path, '%d_%.2f_%.2f_%d.jpg' % (name,radius, scale, i))
+    pic_path = os.path.join(path, '%d_%d_%d_%d.jpg' % (index, classname, radius, scale*100))
 
     cv2.imwrite(pic_path, img)
     with open(label, 'w') as file:

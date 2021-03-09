@@ -17,7 +17,7 @@ from write import write_obj
 from process import process_images
 
 # Amount of files
-count = 10  # determines the number of generate images from each template and corresponding background
+count = 7500  # determines the number of generate images from each template and corresponding background
 image_counter = 0
 
 # Paths for pictures and .txt-files
@@ -29,10 +29,10 @@ background_dir = os.path.join(dir_path, 'backgrounds')  # separate folder for ba
 # Classes from the obj.txt file
 classes = classes.read_classes()
 
+
 for background in os.listdir(background_dir):
     background_path = os.path.join(background_dir, '{}'.format(background))
     for obj in os.listdir(img_dir):
-
         # call name of the image
         name = '{}'.format(obj)
         # split name
@@ -49,6 +49,8 @@ for background in os.listdir(background_dir):
         for i in range(count):
             image_counter += 1
             print(image_counter)
+            if image_counter == count:
+                image_counter = 0
             # Get foreground and background
             img1 = cv2.imread(image_path, -1)  # template image
             img2 = cv2.imread(background_path)  # background image
@@ -58,39 +60,39 @@ for background in os.listdir(background_dir):
 
             # Scaling of img1 using similar triangles
             z_in = MOD
-            z_out = random.uniform(3.0, 4.0)
+            z_out = random.uniform(2.5, 3.5)
             scale = z_in / z_out
             # print(x_in, 1/x_out)
 
             rotated_img = geometric_transformation(img1, rotation_angle, scale, float(variables[3]),
                                                    float(variables[4]))
             # print(rotated_img.shape[0], rotated_img.shape[1])
-            x_offset = random.randrange(1, 640 - rotated_img.shape[1],
+            x_offset = random.randrange(1, img2.shape[1] - rotated_img.shape[1],
                                         1)
-            y_offset = random.randrange(1, 480 - rotated_img.shape[0],
+            y_offset = random.randrange(1, img2.shape[0] - rotated_img.shape[0],
                                         1)
             # print(x_offset, y_offset)
             # Overlaying the object to the background and transparent image
             contour_img, overlay = alpha_channel(rotated_img, img2, x_offset, y_offset)
 
             # Optional - draw bounding rectangle and circle
-            radius = scale * float(variables[2])
-            radius = int(radius)
-            x_center = scale*float(variables[3])
-            x_center = int(x_center)
-            y_center = scale*float(variables[4])
-            y_center = int(y_center)
+            radius = float(scale) * float(variables[2])
+            x_center = float(scale)*float(variables[3])
+            y_center = float(scale)*float(variables[4])
+
             x_rect1 = x_offset + x_center - radius
             y_rect1 = y_offset + y_center - radius
             x_rect2 = x_offset + x_center + radius
             y_rect2 = y_offset + y_center + radius
+
             xC = x_offset + x_center
             yC = y_offset + y_center
             # print(radius, x_center, y_center, x_rect1, y_rect1)
             # cv2.circle(overlay,(x_offset+x_center,y_offset+y_center),3,(0,255,0),3) ONLY FOR VISUALISATION
-            cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
+            #cv2.rectangle(overlay, (x_rect1, y_rect1),(x_rect2, y_rect2), (255, 0, 0), 1)
 
             # Saving the picture and writing the corresponding .txt-file
-            write_obj(path, scale, variables, xC, yC, overlay, i)
+            write_obj(path, scale, variables, xC, yC, overlay, image_counter)
 
-process_images(80, dir_path)
+process_images(20, dir_path)
+
