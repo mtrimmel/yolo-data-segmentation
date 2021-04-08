@@ -45,14 +45,14 @@ def write_obj(path, scale, variables, xC, yC, img, index):
     xC1 = xC / img_width
     yC1 = yC / img_height
 
-    rel_width = width / img_width
-    rel_height = height / img_height
+    rel_width = scale * width / img_width #width and height are scaled, bb cannot be left unscaled
+    rel_height = scale * height / img_height
     
     text = '%d %f %f %f %f\n' % (classname, xC1, yC1, rel_width, rel_height)
 
-    label = os.path.join(path, '%d_%d_%d_%d.txt' % (index, classname, radius, scale*100))
+    label = os.path.join(path, '%d_%d_%d_%d.txt' % (index, classname, radius, scale*100000))
 
-    pic_path = os.path.join(path, '%d_%d_%d_%d.jpg' % (index, classname, radius, scale*100))
+    pic_path = os.path.join(path, '%d_%d_%d_%d.jpg' % (index, classname, radius, scale*100000))
 
     cv2.imwrite(pic_path, img)
     with open(label, 'w') as file:

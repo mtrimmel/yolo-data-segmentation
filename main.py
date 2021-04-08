@@ -17,7 +17,7 @@ from write import write_obj
 from process import process_images
 
 # Amount of files
-count = 7500  # determines the number of generate images from each template and corresponding background
+count = 215 # determines the number of generate images from each template and corresponding background
 image_counter = 0
 
 # Paths for pictures and .txt-files
@@ -60,7 +60,7 @@ for background in os.listdir(background_dir):
 
             # Scaling of img1 using similar triangles
             z_in = MOD
-            z_out = random.uniform(2.5, 3.5)
+            z_out = random.uniform(2.0, 3.5)
             scale = z_in / z_out
             # print(x_in, 1/x_out)
 
